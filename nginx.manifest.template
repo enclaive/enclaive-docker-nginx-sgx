@@ -1,0 +1,90 @@
+# Nginx manifest example
+
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "/entrypoint/sbin/nginx"
+loader.argv0_override = "/entrypoint/sbin/nginx"
+loader.log_level = "error"
+loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/local/lib:/usr/lib:/usr/{{ arch_libdir }}"
+
+fs.mount.lib.type = "chroot"
+fs.mount.lib.path = "/lib"
+fs.mount.lib.uri = "file:{{ gramine.runtimedir() }}"
+
+fs.mount.lib2.type = "chroot"
+fs.mount.lib2.path = "{{ arch_libdir }}"
+fs.mount.lib2.uri = "file:{{ arch_libdir }}"
+
+fs.mount.lib3.type = "chroot"
+fs.mount.lib3.path = "/usr{{ arch_libdir }}"
+fs.mount.lib3.uri = "file:/usr{{ arch_libdir }}"
+
+fs.mount.lib4.type = "chroot"
+fs.mount.lib4.path = "/usr/local/lib"
+fs.mount.lib4.uri = "file:/usr/local/lib"
+
+fs.mount.etc.type = "chroot"
+fs.mount.etc.path = "/etc"
+fs.mount.etc.uri = "file:/etc"
+
+
+# mount all sub- and temporary folders of /entrypoint
+fs.mount.logs.type = "tmpfs"
+fs.mount.logs.path = "/entrypoint/logs" 
+fs.mount.logs.uri = "file:/entrypoint/logs"
+
+fs.mount.tmp.type = "tmpfs"
+fs.mount.tmp.path = "/entrypoint/client_body_temp" 
+fs.mount.tmp.uri = "file:/entrypoint/client_body_temp"
+
+fs.mount.prxy.type = "tmpfs"
+fs.mount.prxy.path = "/entrypoint/proxy_temp" 
+fs.mount.prxy.uri = "file:/entrypoint/proxy_temp"
+
+fs.mount.cgi.type = "tmpfs"
+fs.mount.cgi.path = "/entrypoint/fastcgi_temp" 
+fs.mount.cgi.uri = "file:/entrypoint/fastcgi_temp"
+
+fs.mount.sgi.type = "tmpfs"
+fs.mount.sgi.path = "/entrypoint/uwsgi_temp" 
+fs.mount.sgi.uri = "file:/entrypoint/uwsgi_temp"
+
+fs.mount.scgi.type = "tmpfs"
+fs.mount.scgi.path = "/entrypoint/scgi_temp" 
+fs.mount.scgi.uri = "file:/entrypoint/scgi_temp"
+
+fs.mount.conf.type = "chroot"
+fs.mount.conf.path = "/entrypoint/conf" 
+fs.mount.conf.uri = "file:/entrypoint/conf"
+
+fs.mount.sbin.type = "chroot"
+fs.mount.sbin.path = "/entrypoint/sbin" 
+fs.mount.sbin.uri = "file:/entrypoint/sbin"
+
+fs.mount.html.type = "chroot"
+fs.mount.html.path = "/entrypoint/html" 
+fs.mount.html.uri = "file:/entrypoint/html"
+
+sgx.debug = false
+sgx.nonpie_binary = true
+sgx.enclave_size = "512M"
+sgx.thread_num = 4
+sys.enable_sigterm_injection = true
+
+
+# Nginx benefits from Exitless. Uncomment the below line to use it.
+sgx.rpc_thread_num = 4
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:{{ arch_libdir }}/",
+  "file:/usr/{{ arch_libdir }}/",
+  "file:/entrypoint/sbin/nginx",
+  "file:/entrypoint/conf/",
+  "file:/entrypoint/html/",
+  "file:/etc/nsswitch.conf",
+  "file:/etc/hosts",
+  "file:/etc/group",
+  "file:/etc/passwd",
+]
+
