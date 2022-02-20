@@ -15,6 +15,11 @@ RUN rm nginx-${NGX_VERSION}.tar.gz
 # add nginx.conf
 COPY ./conf /entrypoint/conf
 
+# add /html
+WORKDIR /entrypoint/html
+
+COPY ./html .
+
 # build nginx
 WORKDIR /entrypoint/nginx-${NGX_VERSION}
 
@@ -30,12 +35,7 @@ WORKDIR /entrypoint/conf
 
 COPY ./ssl .
 RUN chmod +x cert-gen.sh 
-RUN ./cert-gen.sh 
-
-# add /html
-WORKDIR /entrypoint/html
-
-COPY ./html .
+RUN ./cert-gen.sh               # creates self-signed server certificate if /ssl is empty
 
 # create manifest
 WORKDIR /manifest

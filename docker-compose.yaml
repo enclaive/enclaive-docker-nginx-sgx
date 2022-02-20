@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  nginx:
+    image: docker.io/enclaive/nginx-sgx:latest
+    devices:
+      - "/dev/sgx_enclave:/dev/sgx_enclave"
+    volumes:
+      - /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket
+    ports:
+      - '80:80'
+      - '443:443'
