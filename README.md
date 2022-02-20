@@ -8,7 +8,7 @@
   <h2 align="center">NGINX-SGX: SGX-ready NGINX open source server</h2>
 
   <p align="center">
-    <h3>packed by <a href="https://enclaive.io">enclaive.io</a></h3>
+    <h3>enclaved by <a href="https://enclaive.io">enclaive.io</a></h3>
     </br>
     #intelsgx # confidentialcompute #dont-trust-a-cloud
     <br />
@@ -19,7 +19,7 @@
     <a href="https://github.com/enclaive/enclaive-docker-nginx-sgx/issues">Request Feature</a>
   </p>
 </div>
-
+</br></br></b>
 
 <!-- INTRODCUTION -->
 ## What is NGINX and SGX?
