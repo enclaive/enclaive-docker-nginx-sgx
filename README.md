@@ -8,7 +8,7 @@
   <h2 align="center">NGINX-SGX: SGX-ready NGINX open source server</h2>
 
   <p align="center">
-    <h3>packed by <a href="https://enclaive.io">enclaive</a></h3>
+    <h3>enclaved by <a href="https://enclaive.io">enclaive.io</a></h3>
     </br>
     #intelsgx # confidentialcompute #dont-trust-a-cloud
     <br />
@@ -19,7 +19,7 @@
     <a href="https://github.com/enclaive/enclaive-docker-nginx-sgx/issues">Request Feature</a>
   </p>
 </div>
-
+</br></br></b>
 
 <!-- INTRODCUTION -->
 ## What is NGINX and SGX?
@@ -184,7 +184,7 @@ Contributions are what make the open source community such an amazing place to l
 <!-- SUPPORT -->
 ## Support
 
-Don't forget to give the project a star! Spread the word on social media! Thanks again!
+Don't forget to give the project a star! Spread the word on social media! Follow us on [twitter](https://twitter.com/enclaive_io)!Thanks again!
 
 <!-- LICENSE -->
 ## License
@@ -194,7 +194,7 @@ Distributed under the Apache License 2.0 License. See `LICENSE` for more informa
 <!-- CONTACT -->
 ## Contact
 
-Sebastian Gajek - [@sebgaj](https://twitter.com/sebgaj) - sebastianl@enclaive.io
+Sebastian Gajek - [@sebgaj](https://twitter.com/sebgaj) - sebastian@enclaive.io
 
 Project Site - [https://enclaive.io](https://enclaive.io)
 
