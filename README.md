@@ -28,7 +28,7 @@
 
 [Overview of NGINX](http://nginx.org/)
 
->[Intel SGX](https://www.intel.com/content/www/us/en/developer/tools/software-guard-extensions/overview.html) delivers advanced hardware and RAM security encryption features, so called enclaves, in order to isolate code and data that are specific to each application. When data and application code run in an enclave additional security, privacy and trust guarantees are given, making the container an ideal choice for (untrusted) cloud environments.
+> Intel Security Guard Extension (SGX) delivers advanced hardware and RAM security encryption features, so called enclaves, in order to isolate code and data that are specific to each application. When data and application code run in an enclave additional security, privacy and trust guarantees are given, making the container an ideal choice for (untrusted) cloud environments.
 
 [Overview of Intel SGX](https://www.intel.com/content/www/us/en/developer/tools/software-guard-extensions/overview.html)
 
@@ -36,7 +36,7 @@ Application code executing within an Intel SGX enclave:
 
 - Remains protected even when the BIOS, VMM, OS, and drivers are compromised, implying that an attacker with full execution control over the platform can be kept at bay
 - Benefits from memory protections that thwart memory bus snooping, memory tampering and “cold boot” attacks on images retained in RAM
-- At no moment in time data, program code and protocol messages are leaked or de-anonymized, making the application GDPR/Schrems-II compliant and capable to process personal data
+- At no moment in time data, program code and protocol messages are leaked or de-anonymized
 - Reduces the trusted computing base of its parent application to the smallest possible footprint
 
 <!-- TL;TD --> 
@@ -56,36 +56,36 @@ Following benefits come for free with NGINX-SGX :
 - All business benefits from the migration to a (public) cloud without sacraficing on-premise infrastracture trust
 - Hardened security against kernel-space exploits, malicious admins, [UEFI firmware](https://thehackernews.com/2022/02/dozens-of-security-flaws-discovered-in.html) exploits and other "root" attacks using the corruption of the application to infiltrate your network and system
 - Run on any hosting environment irrespectivably of geo-location and comply with privacy export regulation, such as [Schrem-II](https://www.europarl.europa.eu/RegData/etudes/ATAG/2020/652073/EPRS_ATA(2020)652073_EN.pdf)
-- GDPR/CCPA processing of user data in the cloud as data is anonymized in the enclave
+- GDPR/CCPA compliant processing ("data in use") of user data in the cloud as data is anonymized thanks to the enclave
 
 <!-- DEPLOY IN THE CLOUD -->
 ## How to deploy NGINX-SGX in a zero-trust cloud?
 
 The following cloud infrastractures are SGX-ready out of the box
-* [Microsoft Azure Confidential Cloud](https://azure.microsoft.com/en-us/solutions/confidential-compute/%22) 
+* [Microsoft Azure Confidential Cloud](https://azure.microsoft.com/en-us/solutions/confidential-compute/) 
 * [OVH Cloud](https://docs.ovh.com/ie/en/dedicated/enable-and-use-intel-sgx/)
 * [Alibaba Cloud](https://www.alibabacloud.com/blog/alibaba-cloud-released-industrys-first-trusted-and-virtualized-instance-with-support-for-sgx-2-0-and-tpm_596821) 
 
-Cloud providers add continiously confidential compute capabilities to their portfolio. Please [contact](#contact) us if the infrastracture provider of your preferred choice is missing.
+Confidential compute is a fast growing space. Cloud providers continiously add confidential compute capabilities to their portfolio. Please [contact](#contact) us if the infrastracture provider of your preferred choice is missing.
 
 <!-- GETTING STARTED -->
 ## Getting started
 ### Platform requirements
 
-You can check for *Intel Security Guard Extension (SGX)* presence by running the following
+Check for *Intel Security Guard Extension (SGX)* presence by running the following
 ```
 grep sgx /proc/cpuinfo
 ```
-Alternatively have a thorough look at Intel's [processor lis](https://www.intel.com/content/www/us/en/support/articles/000028173/processors.html). (We remark that macbooks with CPUs transitioned to Intel are unlikely supported. If you find a configuration, please [contact](#contact) us know.)
+Alternatively have a thorough look at Intel's [processor list](https://www.intel.com/content/www/us/en/support/articles/000028173/processors.html). (We remark that macbooks with CPUs transitioned to Intel are unlikely supported. If you find a configuration, please [contact](#contact) us know.)
 
 Note that in addition to SGX the hardware module must support FSGSBASE. FSGSBASE is an architecture extension that allows applications to directly write to the FS and GS segment registers. This allows fast switching to different threads in user applications, as well as providing an additional address register for application use. If your kernel version is 5.9 or higher, then the FSGSBASE feature is already supported and you can skip this step.
 
 There are several options to proceed
-* Case: No SGX-ready hardware </br> 
+* If: No SGX-ready hardware </br> 
 [Azure Confidential Compute](https://azure.microsoft.com/en-us/solutions/confidential-compute/") cloud offers VMs with SGX support. Prices are fair and have been recently reduced to support the [developer community](https://azure.microsoft.com/en-us/updates/announcing-price-reductions-for-azure-confidential-computing/). First-time users get $200 USD [free](https://azure.microsoft.com/en-us/free/) credit. Other cloud provider like [OVH](https://docs.ovh.com/ie/en/dedicated/enable-and-use-intel-sgx/) or [Alibaba](https://www.alibabacloud.com/blog/alibaba-cloud-released-industrys-first-trusted-and-virtualized-instance-with-support-for-sgx-2-0-and-tpm_596821) cloud have similar offerings.
-* Case: Virtualization <br>
-  Ubuntu 21.04 (Kernel 5.11) provides the driver off-the-shelf. Read the [release](https://ubuntu.com/blog/whats-new-in-security-for-ubuntu-21-04). 
-* Case: Ubuntu (Kernel 5.9 or higher) <br>
+* Elif: Virtualization <br>
+  Ubuntu 21.04 (Kernel 5.11) provides the driver off-the-shelf. Read the [release](https://ubuntu.com/blog/whats-new-in-security-for-ubuntu-21-04). Go to [download](https://ubuntu.com/download/desktop) page.
+* Elif: Kernel 5.9 or higher <br>
 Install the DCAP drivers from the Intel SGX [repo](https://github.com/intel/linux-sgx-driver)
 
   ```sh
@@ -98,7 +98,7 @@ Install the DCAP drivers from the Intel SGX [repo](https://github.com/intel/linu
   sudo apt -y install clang-10 libssl-dev gdb libsgx-enclave-common libsgx-quote-ex libprotobuf17 libsgx-dcap-ql libsgx-dcap-ql-dev az-dcap-client open-enclave
   ```
 
-* Case: Other </br>
+* Elif: Kernel older than version 5.9 </br>
   Upgrade to Kernel 5.11 or higher. Follow the instructions [here](https://ubuntuhandbook.org/index.php/2021/02/linux-kernel-5-11released-install-ubuntu-linux-mint/).   
 
 ### Software requirements
