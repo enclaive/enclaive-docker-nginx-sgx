@@ -43,7 +43,7 @@ Application code executing within an Intel SGX enclave:
 ## TL;DR
 
 ```sh
-curl -sSL https://github.com/enclaive/enclaive-docker-nginx-sgx/master/docker-compose.yml > docker-compose.yml
+curl -sSL https://raw.githubusercontent.com/enclaive/enclaive-docker-nginx-sgx/main/docker-compose.yaml > docker-compose.yml
 docker-compose up -d
 ```
 **Warning**: This quick setup is only intended for development environments. You are encouraged to change the insecure default credentials and check out the available configuration options in the [Environment Variables](#environment-variables) section for a more secure deployment.
