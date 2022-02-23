@@ -41,14 +41,13 @@ RUN ./cert-gen.sh               # creates self-signed server certificate if /ssl
 WORKDIR /manifest
 
 COPY nginx.manifest.template .
-RUN /gramine-os/manifest.sh nginx
+RUN /manifest/manifest.sh nginx
 
 # clean up
 RUN rm -rf /entrypoint/nginx-${NGX_VERSION} /entrypoint/conf/ca.* /entrypoint/conf/cert-gen.sh 
 
 # start enclaived nginx
-WORKDIR /entrypoint
-ENTRYPOINT [ "enclaive.sh" ]
+ENTRYPOINT [ "/entrypoint/enclaive.sh" ]
 CMD [ "nginx" ]
 
 # ports
