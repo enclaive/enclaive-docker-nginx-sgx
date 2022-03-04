@@ -39,6 +39,16 @@ Application code executing within an Intel SGX enclave:
 - At no moment in time data, program code and protocol messages are leaked or de-anonymized
 - Reduces the trusted computing base of its parent application to the smallest possible footprint
 
+<!-- WHY -->
+## Why use NGINX-SGX (instead of "vanilla" NGINX) images?
+Following benefits come for free with NGINX-SGX :
+
+- "Small step for a dev, giant leap for a zero-trust infrastructure"
+- All business benefits from the migration to a (public) cloud without sacraficing on-premise infrastracture trust
+- Hardened security against kernel-space exploits, malicious and accidental privilege [insider](https://www.ibm.com/topics/insider-threats) attacks, [UEFI firmware](https://thehackernews.com/2022/02/dozens-of-security-flaws-discovered-in.html) exploits and other "root" attacks using the corruption of the application to infiltrate your network and system
+- Run on any hosting environment irrespectivably of geo-location and comply with privacy export regulation, such as [Schrem-II](https://www.europarl.europa.eu/RegData/etudes/ATAG/2020/652073/EPRS_ATA(2020)652073_EN.pdf)
+- GDPR/CCPA compliant processing ("data in use") of user data in the cloud as data is anonymized thanks to the enclave
+
 <!-- TL;TD --> 
 ## TL;DR
 
@@ -46,17 +56,8 @@ Application code executing within an Intel SGX enclave:
 curl -sSL https://raw.githubusercontent.com/enclaive/enclaive-docker-nginx-sgx/main/docker-compose.yaml > docker-compose.yml
 docker-compose up -d
 ```
-**Warning**: This quick setup is only intended for development environments. You are encouraged to change the insecure default credentials and check out the available configuration options in the [Environment Variables](#environment-variables) section for a more secure deployment.
+**Warning**: This quick setup is only intended for development environments. You are encouraged to change the insecure default credentials and check out the available configuration options in the [build](#build-the-image) section for a more secure deployment.
 
-<!-- WHY -->
-## Why use NGINX-SGX (instead of "vanilla" NGINX) images?
-Following benefits come for free with NGINX-SGX :
-
-- "Small step for a dev, giant leap for a zero-trust infrastructure"
-- All business benefits from the migration to a (public) cloud without sacraficing on-premise infrastracture trust
-- Hardened security against kernel-space exploits, malicious admins, [UEFI firmware](https://thehackernews.com/2022/02/dozens-of-security-flaws-discovered-in.html) exploits and other "root" attacks using the corruption of the application to infiltrate your network and system
-- Run on any hosting environment irrespectivably of geo-location and comply with privacy export regulation, such as [Schrem-II](https://www.europarl.europa.eu/RegData/etudes/ATAG/2020/652073/EPRS_ATA(2020)652073_EN.pdf)
-- GDPR/CCPA compliant processing ("data in use") of user data in the cloud as data is anonymized thanks to the enclave
 
 <!-- DEPLOY IN THE CLOUD -->
 ## How to deploy NGINX-SGX in a zero-trust cloud?
@@ -98,7 +99,7 @@ Install the DCAP drivers from the Intel SGX [repo](https://github.com/intel/linu
   sudo apt -y install clang-10 libssl-dev gdb libsgx-enclave-common libsgx-quote-ex libprotobuf17 libsgx-dcap-ql libsgx-dcap-ql-dev az-dcap-client open-enclave
   ```
 
-* Elif: Kernel older than version 5.9 </br>
+* Else: Kernel older than version 5.9 </br>
   Upgrade to Kernel 5.11 or higher. Follow the instructions [here](https://ubuntuhandbook.org/index.php/2021/02/linux-kernel-5-11released-install-ubuntu-linux-mint/).   
 
 ### Software requirements
@@ -116,7 +117,7 @@ Use `docker run hello-world` to check if you can run docker (without sudo).
 The recommended way to get the enclaive NGINX-SGX Open Source Docker Image is to pull the prebuilt image from the [Docker Hub Registry](https://hub.docker.com/r/enclaive/nginx-sgx).
 
 ```console
-$ docker pull enclaive/nginx-sgx:latest
+docker pull enclaive/nginx-sgx:latest
 ```
 
 To use a specific version, you can pull a versioned tag. You can view the
@@ -124,51 +125,58 @@ To use a specific version, you can pull a versioned tag. You can view the
 in the Docker Hub Registry.
 
 ```console
-$ docker pull enclaive/nginx-sgx:[TAG]
+docker pull enclaive/nginx-sgx:[TAG]
 ```
 
+<!-- BUILD THE IMAGE -->
+## Build the image
 If you wish, you can also build the image yourself.
 
 ```console
-$ docker build -t bitnami/nginx:latest 'https://github.com/enclaive/enclaive-docker-nginx-sgx.git#master'
+docker build -t enclaive/nginx-sgx:latest 'https://github.com/enclaive/enclaive-docker-nginx-sgx.git#master'
 ```
 <!-- HOSTING -->
-## Hosting a static website
+### Hosting a static website
 
-This NGINX-SGX Open Source repo exposes the folder at `/html`. Content mounted here is served by the default catch-all server block. 
+This NGINX-SGX Open Source repo exposes the folder at `/html`. Content mounted from this folder is served by the default catch-all server block. 
+
+### Configure network ports
+Edit `conf/nginx.conf` to eanble the ports the server should listen to. Default ports are 80 and 443 for non-secured and TLS-secured communication, respectively.
+```
+listen 80;
+listen 443 ssl;
+```
 
 <!-- ACCESSING -->
-## Accessing your server from the host
+### Accessing your server from the host
 
 To access your web server from your host machine you can ask Docker to map a random port on your host to ports `80` and `443` exposed in the container.
 
 ```console
-$ docker run --name nginx-sgx -p 80:80 -p 443:443  
-    \--device=/dev/sgx_enclave 
-    \-v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket 
-    \ enclaive/nginx-sgx:latest
+docker run --name nginx-sgx -p 80:80 -p 443:443 \  
+    --device=/dev/sgx_enclave \ 
+    -v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket \ 
+    enclaive/nginx-sgx:latest
 ```
-Access your web server in the browser by navigating to `https://localhost` (SSL/TLS) and `http://localhost`.
-
+Access your web server in the browser by navigating to `https://localhost` and `http://localhost` for a SSL/TLS secured and non-secure community, respectively.
 
 Run `docker port` to determine the random ports Docker assigned.
 
 ```console
-$ docker port nginx-sgx
+docker port nginx-sgx
 80/tcp -> 0.0.0.0:32769
 ```
 
 You can also manually specify the ports you want forwarded from your host to the container.
 
 ```console
-$ docker run -p 9000:80 -p9443:443 
-    \--device=/dev/sgx_enclave 
-    \-v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket 
-    \ enclaive/nginx-sgx:latest
-
+docker run -p 9000:80 -p9443:443 \
+    --device=/dev/sgx_enclave    \
+    -v /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket \
+     enclaive/nginx-sgx:latest
 ```
 
-Access your web server in the browser by navigating to `https://localhost:9443` (SSL/TLS) and `http://localhost:9443`.
+Access your web server in the browser by navigating to `https://localhost:9443` (SSL/TLS) and `http://localhost:9443` (non-secured).
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -194,9 +202,7 @@ Distributed under the Apache License 2.0 License. See `LICENSE` for more informa
 <!-- CONTACT -->
 ## Contact
 
-Sebastian Gajek - [@sebgaj](https://twitter.com/sebgaj) - sebastianl@enclaive.io
-
-Project Site - [https://enclaive.io](https://enclaive.io)
+enclaive.io - [@enclaive_io](https://twitter.com/enclaive_io) - contact@enclaive.io - [https://enclaive.io](https://enclaive.io)
 
 
 <!-- ACKNOWLEDGMENTS -->
@@ -206,6 +212,7 @@ This project greatly celebrates all contributions from the gramine team. Special
 
 * [Gramine Project](https://github.com/gramineproject)
 * [Intel SGX](https://github.com/intel/linux-sgx-driver)
+* [NGINX](https://www.nginx.org)
 
 
 ## Trademarks 
