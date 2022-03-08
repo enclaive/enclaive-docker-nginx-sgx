@@ -1,4 +1,4 @@
-FROM ubuntu20.04-gramine-os:latest
+FROM enclaive/gramine-os:latest
 
 ARG NGX_VERSION=1.18.0
 
