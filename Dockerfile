@@ -8,7 +8,7 @@ RUN apt-get install -y build-essential apache2-utils libssl-dev zlib1g zlib1g-de
 # download source
 WORKDIR /entrypoint
 
-ADD http://nginx.org/download/nginx-${NGX_VERSION}.tar.gz ./
+ADD https://nginx.org/download/nginx-${NGX_VERSION}.tar.gz ./
 RUN tar -xzf nginx-${NGX_VERSION}.tar.gz 
 RUN rm nginx-${NGX_VERSION}.tar.gz
 
