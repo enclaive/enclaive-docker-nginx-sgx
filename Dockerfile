@@ -1,14 +1,17 @@
-FROM enclaive/gramine-os:latest
+FROM enclaive/gramine-sdk:latest
 
 ARG NGX_VERSION=1.18.0
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update 
-RUN apt-get install -y build-essential apache2-utils libssl-dev zlib1g zlib1g-dev
+RUN apt-get install -y build-essential apache2-utils libssl-dev zlib1g zlib1g-dev 
+RUN apt-get install -y libpcre3 libpcre3-dev # PCRE is required for fast-cgi
+#RUN apt-get install -y build-essential libpcre3-dev libxslt1-dev libgeoip-dev libssl-dev
 
 # download source
 WORKDIR /entrypoint
 
-ADD https://nginx.org/download/nginx-${NGX_VERSION}.tar.gz ./
+ADD http://nginx.org/download/nginx-${NGX_VERSION}.tar.gz ./
 RUN tar -xzf nginx-${NGX_VERSION}.tar.gz 
 RUN rm nginx-${NGX_VERSION}.tar.gz
 
@@ -26,7 +29,9 @@ WORKDIR /entrypoint/nginx-${NGX_VERSION}
 RUN ./configure \
     --prefix=/entrypoint \
     --without-http_rewrite_module \
-    --with-http_ssl_module 
+    --with-http_ssl_module \     
+    --with-pcre \ 
+    --with-pcre-jit  
 RUN make 
 RUN make install     
 
@@ -46,9 +51,9 @@ RUN /manifest/manifest.sh nginx
 # clean up
 RUN rm -rf /entrypoint/nginx-${NGX_VERSION} /entrypoint/conf/ca.* /entrypoint/conf/cert-gen.sh 
 
+# ports
+EXPOSE 80 443
+
 # start enclaived nginx
 ENTRYPOINT [ "/entrypoint/enclaive.sh" ]
 CMD [ "nginx" ]
-
-# ports
-EXPOSE 80 443
