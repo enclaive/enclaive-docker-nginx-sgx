@@ -6,7 +6,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update 
 RUN apt-get install -y build-essential apache2-utils libssl-dev zlib1g zlib1g-dev 
 RUN apt-get install -y libpcre3 libpcre3-dev # PCRE is required for fast-cgi
-#RUN apt-get install -y build-essential libpcre3-dev libxslt1-dev libgeoip-dev libssl-dev
 
 # download source
 WORKDIR /entrypoint
@@ -26,12 +25,18 @@ COPY ./html .
 # build nginx
 WORKDIR /entrypoint/nginx-${NGX_VERSION}
 
-RUN ./configure \
+RUN CFLAGS="-g -O0" ./configure \
     --prefix=/entrypoint \
     --without-http_rewrite_module \
     --with-http_ssl_module \     
     --with-pcre \ 
-    --with-pcre-jit  
+    --with-pcre-jit  \
+    --without-http_scgi_module \
+    --without-http_uwsgi_module \
+    --without-http_proxy_module \
+    --without-http-cache \
+    --with-debug 
+
 RUN make 
 RUN make install     
 
