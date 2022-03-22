@@ -1,0 +1,178 @@
+# Nginx manifest example
+
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "/entrypoint/nginx-php.sh"
+#libos.entrypoint = "/entrypoint/sbin/nginx"
+#libos.entrypoint = "/usr/sbin/php-fpm7.4"
+loader.argv0_override = "/entrypoint/sbin/nginx"
+loader.log_level = "error"
+loader.env.LD_LIBRARY_PATH = "/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu"
+loader.env.PATH = "/:/usr/sbin:/usr/bin:/sbin:/bin"
+loader.insecure__use_cmdline_argv = true
+
+
+fs.mount.lib.type = "chroot"
+fs.mount.lib.path = "/lib"
+fs.mount.lib.uri = "file:{{ gramine.runtimedir() }}"
+
+fs.mount.lib2.type = "chroot"
+fs.mount.lib2.path = "/lib/x86_64-linux-gnu"
+fs.mount.lib2.uri = "file:/lib/x86_64-linux-gnu"
+
+fs.mount.lib3.type = "chroot"
+fs.mount.lib3.path = "/usr//lib/x86_64-linux-gnu"
+fs.mount.lib3.uri = "file:/usr//lib/x86_64-linux-gnu"
+
+fs.mount.lib4.type = "chroot"
+fs.mount.lib4.path = "/usr/local/lib"
+fs.mount.lib4.uri = "file:/usr/local/lib"
+
+fs.mount.etc.type = "chroot"
+fs.mount.etc.path = "/etc"
+fs.mount.etc.uri = "file:/etc"
+
+fs.mount.php.type = "chroot"
+fs.mount.php.path = "/usr/lib/php"
+fs.mount.php.uri = "file:/usr/lib/php"
+
+fs.mount.phpfpm.type = "chroot"
+fs.mount.phpfpm.path = "/usr/sbin/php-fpm7.4"
+fs.mount.phpfpm.uri = "file:/usr/sbin/php-fpm7.4"
+
+fs.mount.nhtml.type = "chroot"
+fs.mount.nhtml.path = "/usr/share/nginx/html"
+fs.mount.nhtml.uri = "file:/usr/share/nginx/html"
+
+fs.mount.www.type = "chroot"
+fs.mount.www.path = "/var/www/html"
+fs.mount.www.uri = "file:/var/www//html"
+
+fs.mount.log.type = "chroot"
+fs.mount.log.path = "/var/log"
+fs.mount.log.uri = "file:/var/log"
+
+fs.mount.tmp.type = "tmpfs"
+fs.mount.tmp.path = "/tmp"
+fs.mount.tmp.uri = "file:/tmp"
+
+fs.mount.run.type = "chroot"
+fs.mount.run.path = "/run/php"
+fs.mount.run.uri = "file:/run/php"
+
+
+
+# mount all sub- and temporary folders of /entrypoint
+fs.mount.logs.type = "tmpfs"
+fs.mount.logs.path = "/entrypoint/logs" 
+fs.mount.logs.uri = "file:/entrypoint/logs"
+
+fs.mount.tmpcli.type = "tmpfs"
+fs.mount.tmpcli.path = "/entrypoint/client_body_temp" 
+fs.mount.tmpcli.uri = "file:/entrypoint/client_body_temp"
+
+fs.mount.prxy.type = "tmpfs"
+fs.mount.prxy.path = "/entrypoint/proxy_temp" 
+fs.mount.prxy.uri = "file:/entrypoint/proxy_temp"
+
+fs.mount.cgi.type = "tmpfs"
+fs.mount.cgi.path = "/entrypoint/fastcgi_temp" 
+fs.mount.cgi.uri = "file:/entrypoint/fastcgi_temp"
+
+fs.mount.sgi.type = "tmpfs"
+fs.mount.sgi.path = "/entrypoint/uwsgi_temp" 
+fs.mount.sgi.uri = "file:/entrypoint/uwsgi_temp"
+
+fs.mount.scgi.type = "tmpfs"
+fs.mount.scgi.path = "/entrypoint/scgi_temp" 
+fs.mount.scgi.uri = "file:/entrypoint/scgi_temp"
+
+fs.mount.conf.type = "chroot"
+fs.mount.conf.path = "/entrypoint/conf" 
+fs.mount.conf.uri = "file:/entrypoint/conf"
+
+fs.mount.html.type = "chroot"
+fs.mount.html.path = "/entrypoint/html" 
+fs.mount.html.uri = "file:/entrypoint/html"
+
+sgx.debug = false
+sgx.nonpie_binary = true
+sgx.enclave_size = "512M"
+sgx.thread_num = 4
+sys.enable_sigterm_injection = true
+
+
+# Nginx benefits from Exitless. Uncomment the below line to use it.
+sgx.rpc_thread_num = 4
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:/lib/x86_64-linux-gnu/",
+  "file:/usr//lib/x86_64-linux-gnu/", 
+  "file:/entrypoint/conf/",
+  "file:/entrypoint/html/",
+  "file:/etc/nsswitch.conf",
+  "file:/etc/hosts",
+  "file:/etc/group",
+  "file:/usr/sbin/php-fpm7.4",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:/lib/x86_64-linux-gnu/",
+  "file:/usr//lib/x86_64-linux-gnu/", 
+  "file:/etc/php/7.4/fpm/php-fpm.conf", 
+  "file:/etc/php/7.4/fpm/pool.d/www.conf",
+  "file:/etc/php/7.4/fpm/php.ini",
+  "file:/etc/php/7.4/fpm/conf.d/10-opcache.ini",
+  "file:/etc/php/7.4/fpm/conf.d/10-pdo.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-calendar.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-ctype.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-exif.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-ffi.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-fileinfo.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-ftp.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-gettext.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-iconv.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-json.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-phar.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-posix.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-readline.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-shmop.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-sockets.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-sysvmsg.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-sysvsem.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-sysvshm.ini",
+  "file:/etc/php/7.4/fpm/conf.d/20-tokenizer.ini",
+  "file:/usr/lib/php/20190902/opcache.so",
+  "file:/usr/lib/php/20190902/pdo.so",
+  "file:/usr/lib/php/20190902/calendar.so",
+  "file:/usr/lib/php/20190902/ctype.so",
+  "file:/usr/lib/php/20190902/exif.so",
+  "file:/usr/lib/php/20190902/ffi.so",
+  "file:/usr/lib/php/20190902/fileinfo.so",
+  "file:/usr/lib/php/20190902/ftp.so",
+  "file:/usr/lib/php/20190902/gettext.so",
+  "file:/usr/lib/php/20190902/iconv.so",
+  "file:/usr/lib/php/20190902/phar.so",
+  "file:/usr/lib/php/20190902/json.so",
+  "file:/usr/lib/php/20190902/posix.so",
+  "file:/usr/lib/php/20190902/readline.so",
+  "file:/usr/lib/php/20190902/shmop.so",
+  "file:/usr/lib/php/20190902/sockets.so",
+  "file:/usr/lib/php/20190902/sysvmsg.so",
+  "file:/usr/lib/php/20190902/tokenizer.so",
+  "file:/usr/lib/php/20190902/sysvsem.so",
+  "file:/usr/lib/php/20190902/sysvshm.so",
+  "file:/etc/passwd",
+]
+
+sgx.allowed_files = [
+  "file:/var/log/php7.4-fpm.log",
+  "file:/etc/localtime",
+  "file:/run/php",
+  "file:/run/php/php7.4-fpm.sock",
+  "file:/usr/share/nginx/html/index.php",
+  "file:/var/www/html/index.php",
+  "file:/var/log/php7.4-fpm/access.log",
+  "file:/proc/sys/net/ipv4/",
+
+]
+
