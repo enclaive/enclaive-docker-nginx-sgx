@@ -5,7 +5,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update 
 RUN apt-get install -y build-essential apache2-utils libssl-dev zlib1g zlib1g-dev 
-RUN apt-get install -y libpcre3 libpcre3-dev # PCRE is required for fast-cgi
+RUN apt-get update && apt-get install -y php-fpm 
+#RUN apt-get install -y libpcre3 libpcre3-dev # PCRE is required for fast-cgi
 
 # download source
 WORKDIR /entrypoint
@@ -29,13 +30,15 @@ RUN CFLAGS="-g -O0" ./configure \
     --prefix=/entrypoint \
     --without-http_rewrite_module \
     --with-http_ssl_module \     
-    --with-pcre \ 
-    --with-pcre-jit  \
     --without-http_scgi_module \
     --without-http_uwsgi_module \
     --without-http_proxy_module \
     --without-http-cache \
-    --with-debug 
+    --with-debug \
+    #--with-pcre \ 
+    #--with-pcre-jit  \
+
+    
 
 RUN make 
 RUN make install     
@@ -61,4 +64,4 @@ EXPOSE 80 443
 
 # start enclaived nginx
 ENTRYPOINT [ "/entrypoint/enclaive.sh" ]
-CMD [ "nginx" ]
+CMD [ "nginx+php" ]
