@@ -11,5 +11,7 @@ services:
     ports:
       - '80:80'
       - '443:443'
+      - '9000:9000'
+      
     devices:
       - "/dev/sgx_enclave:/dev/sgx_enclave"

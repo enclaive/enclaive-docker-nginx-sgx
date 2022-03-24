@@ -1,0 +1,303 @@
+[loader]
+entrypoint = "file:/usr/lib/x86_64-linux-gnu/gramine/libsysdb.so"
+log_level = "all"
+insecure__use_cmdline_argv = true
+preload = ""
+
+[libos]
+entrypoint = "/usr/bin/bash"
+
+[sgx]
+debug = false
+nonpie_binary = true
+enclave_size = "512M"
+thread_num = 4
+rpc_thread_num = 4
+allowed_files = [ "file:/var/log/php7.4-fpm.log", "file:/etc/localtime", "file:/run/php", "file:/var/run/php7.2-fpm.sock", "file:/usr/share/nginx/html/index.php", "file:/var/www/html/index.php", "file:/var/log/php7.4-fpm/access.log", "file:/proc/sys/net/ipv4/",]
+isvprodid = 0
+isvsvn = 0
+remote_attestation = false
+require_avx = false
+require_avx512 = false
+require_mpx = false
+require_pkru = false
+require_amx = false
+support_exinfo = false
+enable_stats = false
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/x86_64-linux-gnu/gramine/libsysdb.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/x86_64-linux-gnu/gramine/runtime/glibc/"
+
+[[sgx.trusted_files]]
+uri = "file:/lib/x86_64-linux-gnu/"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/x86_64-linux-gnu/"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/nsswitch.conf"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/hosts"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/group"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/passwd"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/bin/bash"
+
+[[sgx.trusted_files]]
+uri = "file:/entrypoint/test.sh"
+
+[[sgx.trusted_files]]
+uri = "file:/entrypoint/sbin/nginx"
+
+[[sgx.trusted_files]]
+uri = "file:/entrypoint/conf/"
+
+[[sgx.trusted_files]]
+uri = "file:/entrypoint/html/"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/sbin/php-fpm7.4"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/php-fpm.conf"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/pool.d/www.conf"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/php.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/10-opcache.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/10-pdo.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-calendar.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-ctype.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-exif.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-ffi.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-fileinfo.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-ftp.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-gettext.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-iconv.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-json.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-phar.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-posix.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-readline.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-shmop.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-sockets.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-sysvmsg.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-sysvsem.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-sysvshm.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/etc/php/7.4/fpm/conf.d/20-tokenizer.ini"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/opcache.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/pdo.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/calendar.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/ctype.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/exif.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/ffi.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/fileinfo.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/ftp.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/gettext.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/iconv.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/phar.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/json.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/posix.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/readline.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/shmop.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/sockets.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/sysvmsg.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/tokenizer.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/sysvsem.so"
+
+[[sgx.trusted_files]]
+uri = "file:/usr/lib/php/20190902/sysvshm.so"
+
+[sys]
+enable_sigterm_injection = true
+
+[loader.env]
+LD_LIBRARY_PATH = "/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu"
+PATH = "/usr/bin"
+
+[fs.mount.lib]
+type = "chroot"
+path = "/lib"
+uri = "file:/usr/lib/x86_64-linux-gnu/gramine/runtime/glibc"
+
+[fs.mount.lib2]
+type = "chroot"
+path = "/lib/x86_64-linux-gnu"
+uri = "file:/lib/x86_64-linux-gnu"
+
+[fs.mount.lib3]
+type = "chroot"
+path = "/usr/lib/x86_64-linux-gnu"
+uri = "file:/usr/lib/x86_64-linux-gnu"
+
+[fs.mount.etc]
+type = "chroot"
+path = "/etc"
+uri = "file:/etc"
+
+[fs.mount.sbin]
+type = "chroot"
+path = "/usr/sbin/"
+uri = "file:/usr/sbin"
+
+[fs.mount.entrypoint]
+type = "chroot"
+path = "/entrypoint"
+uri = "file:/entrypoint"
+
+[fs.mount.bin]
+type = "chroot"
+path = "/usr/bin/"
+uri = "file:/usr/bin"
+
+[fs.mount.logs]
+type = "tmpfs"
+path = "/entrypoint/logs"
+uri = "file:/entrypoint/logs"
+
+[fs.mount.tmpcli]
+type = "tmpfs"
+path = "/entrypoint/client_body_temp"
+uri = "file:/entrypoint/client_body_temp"
+
+[fs.mount.prxy]
+type = "tmpfs"
+path = "/entrypoint/proxy_temp"
+uri = "file:/entrypoint/proxy_temp"
+
+[fs.mount.cgi]
+type = "tmpfs"
+path = "/entrypoint/fastcgi_temp"
+uri = "file:/entrypoint/fastcgi_temp"
+
+[fs.mount.sgi]
+type = "tmpfs"
+path = "/entrypoint/uwsgi_temp"
+uri = "file:/entrypoint/uwsgi_temp"
+
+[fs.mount.scgi]
+type = "tmpfs"
+path = "/entrypoint/scgi_temp"
+uri = "file:/entrypoint/scgi_temp"
+
+[fs.mount.conf]
+type = "chroot"
+path = "/entrypoint/conf"
+uri = "file:/entrypoint/conf"
+
+[fs.mount.html]
+type = "chroot"
+path = "/entrypoint/html"
+uri = "file:/entrypoint/html"
+
+[fs.mount.php]
+type = "chroot"
+path = "/usr/lib/php"
+uri = "file:/usr/lib/php"
+
+[fs.mount.phpfpm]
+type = "chroot"
+path = "/usr/sbin/php-fpm7.4"
+uri = "file:/usr/sbin/php-fpm7.4"
+
+[fs.mount.www]
+type = "chroot"
+path = "/var/www/html"
+uri = "file:/var/www//html"
+
+[fs.mount.log]
+type = "chroot"
+path = "/var/log"
+uri = "file:/var/log"
+
+[fs.mount.tmp]
+type = "tmpfs"
+path = "/tmp"
+uri = "file:/tmp"

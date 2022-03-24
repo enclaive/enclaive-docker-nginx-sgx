@@ -1,0 +1,59 @@
+# This is a general manifest template for running Bash and core utility programs,
+# including ls, cat, cp, date, and rm.
+# place bash script in /entrypoint and run: enclaive bash /entrypoint/myscript.sh
+
+loader.entrypoint = "file:/usr/lib/x86_64-linux-gnu/gramine/libsysdb.so"
+libos.entrypoint = "/usr/bin/bash"
+
+loader.log_level = "all"
+
+loader.env.LD_LIBRARY_PATH = "/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu"
+loader.env.PATH = "/usr/bin"
+
+loader.insecure__use_cmdline_argv = true
+
+fs.mount.lib.type = "chroot"
+fs.mount.lib.path = "/lib"
+fs.mount.lib.uri = "file:{{ gramine.runtimedir() }}"
+
+fs.mount.lib2.type = "chroot"
+fs.mount.lib2.path = "/lib/x86_64-linux-gnu"
+fs.mount.lib2.uri = "file:/lib/x86_64-linux-gnu"
+
+fs.mount.lib3.type = "chroot"
+fs.mount.lib3.path = "/usr/lib/x86_64-linux-gnu"
+fs.mount.lib3.uri = "file:/usr/lib/x86_64-linux-gnu"
+
+fs.mount.etc.type = "chroot"
+fs.mount.etc.path = "/etc"
+fs.mount.etc.uri = "file:/etc"
+
+fs.mount.sbin.type = "chroot"
+fs.mount.sbin.path = "/usr/sbin/"
+fs.mount.sbin.uri = "file:/usr/sbin"
+
+fs.mount.bin.type = "chroot"
+fs.mount.bin.path = "/usr/bin/"
+fs.mount.bin.uri = "file:/usr/bin"
+
+fs.mount.entrypoint.type = "chroot"
+fs.mount.entrypoint.path = "/entrypoint"
+fs.mount.entrypoint.uri = "file:/entrypoint"
+
+
+sgx.debug = true
+sgx.nonpie_binary = true
+sgx.enclave_size = "256M"
+sgx.thread_num = 4
+
+sgx.trusted_files = [
+  "file:/usr/lib/x86_64-linux-gnu/gramine/libsysdb.so",
+  "file:/usr/bin/",
+  "file:/usr/lib/x86_64-linux-gnu/gramine/runtime/glibc/",
+  "file:/lib/x86_64-linux-gnu/",
+  "file:/usr/lib/x86_64-linux-gnu/",
+]
+
+sgx.allowed_files = [
+  "file:/entrypoint",
+]

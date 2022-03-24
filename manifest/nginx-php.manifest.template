@@ -2,6 +2,7 @@
 
 loader.entrypoint = "file:/usr/lib/x86_64-linux-gnu/gramine/libsysdb.so"
 libos.entrypoint = "/usr/bin/bash"
+#loader.argv0_override = "/entrypoint/test.sh"
 
 loader.log_level = "all"
 
@@ -137,7 +138,7 @@ sgx.trusted_files = [
   ## BASH
 
   "file:/usr/bin/bash",
-  "file:/entrypoint/entrypoint.sh",  
+  "file:/entrypoint/test.sh",
 
   ## NGINX
   "file:/entrypoint/sbin/nginx",
