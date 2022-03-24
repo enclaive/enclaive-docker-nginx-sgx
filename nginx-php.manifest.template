@@ -106,7 +106,7 @@ fs.mount.phpfpm.uri = "file:/usr/sbin/php-fpm7.4"
 
 fs.mount.www.type = "chroot"
 fs.mount.www.path = "/var/www/html"
-fs.mount.www.uri = "file:/var/www//html"
+fs.mount.www.uri = "file:/var/www/html"
 
 fs.mount.log.type = "chroot"
 fs.mount.log.path = "/var/log"
@@ -116,9 +116,9 @@ fs.mount.tmp.type = "tmpfs"
 fs.mount.tmp.path = "/tmp"
 fs.mount.tmp.uri = "file:/tmp"
 
-#fs.mount.run.type = "chroot"
-#fs.mount.run.path = "/run/php"
-#fs.mount.run.uri = "file:/run/php"
+fs.mount.run.type = "tmpfs"
+fs.mount.run.path = "/var/run"
+fs.mount.run.uri = "file:/var/run"
 
 
 
@@ -198,8 +198,8 @@ sgx.allowed_files = [
   "file:/var/log/php7.4-fpm.log",
   "file:/etc/localtime",
   "file:/run/php",
-  #"file:/run/php/php7.4-fpm.sock",
-  "file:/var/run/php7.2-fpm.sock",
+  
+  #"file:/var/run/php7.2-fpm.sock",
   "file:/usr/share/nginx/html/index.php",
   "file:/var/www/html/index.php",
   "file:/var/log/php7.4-fpm/access.log",
