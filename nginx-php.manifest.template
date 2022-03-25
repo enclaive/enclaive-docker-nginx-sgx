@@ -13,8 +13,8 @@ loader.insecure__use_cmdline_argv = true
 
 sgx.debug = false
 sgx.nonpie_binary = true
-sgx.enclave_size = "512M"
-sgx.thread_num = 4
+sgx.enclave_size = "1G"
+sgx.thread_num = 6
 sys.enable_sigterm_injection = true
 # Nginx benefits from Exitless. Uncomment the below line to use it.
 sgx.rpc_thread_num = 4
@@ -137,7 +137,7 @@ sgx.trusted_files = [
   ## BASH
 
   "file:/usr/bin/bash",
-  "file:/entrypoint/entrypoint.sh",  
+#  "file:/entrypoint/entrypoint.sh",  
 
   ## NGINX
   "file:/entrypoint/sbin/nginx",
@@ -198,6 +198,7 @@ sgx.allowed_files = [
   "file:/var/log/php7.4-fpm.log",
   "file:/etc/localtime",
   "file:/run/php",
+  "file:/entrypoint/entrypoint.sh",  
   
   #"file:/var/run/php7.2-fpm.sock",
   "file:/usr/share/nginx/html/index.php",
