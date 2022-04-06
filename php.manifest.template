@@ -1,0 +1,85 @@
+# Nginx manifest example
+
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "/usr/local/sbin/php-fpm"
+loader.argv0_override = "/usr/local/sbin/php-fpm"
+loader.log_level = "error"
+loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/local/lib:/usr/lib:/usr/{{ arch_libdir }}"
+loader.insecure__use_cmdline_argv = true
+
+fs.mount.lib.type = "chroot"
+fs.mount.lib.path = "/lib"
+fs.mount.lib.uri = "file:{{ gramine.runtimedir() }}"
+
+fs.mount.lib2.type = "chroot"
+fs.mount.lib2.path = "{{ arch_libdir }}"
+fs.mount.lib2.uri = "file:{{ arch_libdir }}"
+
+fs.mount.lib3.type = "chroot"
+fs.mount.lib3.path = "/usr{{ arch_libdir }}"
+fs.mount.lib3.uri = "file:/usr{{ arch_libdir }}"
+
+fs.mount.lib4.type = "chroot"
+fs.mount.lib4.path = "/usr/local/"
+fs.mount.lib4.uri = "file:/usr/local/"
+
+fs.mount.etc.type = "chroot"
+fs.mount.etc.path = "/etc"
+fs.mount.etc.uri = "file:/etc"
+
+# mount all sub- and temporary folders of /app
+fs.mount.logs.type = "tmpfs"
+fs.mount.logs.path = "/app/logs"
+fs.mount.logs.uri = "file:/app/logs"
+
+fs.mount.tmp.type = "tmpfs"
+fs.mount.tmp.path = "/app/client_body_temp"
+fs.mount.tmp.uri = "file:/app/client_body_temp"
+
+fs.mount.prxy.type = "tmpfs"
+fs.mount.prxy.path = "/app/proxy_temp"
+fs.mount.prxy.uri = "file:/app/proxy_temp"
+
+fs.mount.cgi.type = "tmpfs"
+fs.mount.cgi.path = "/app/fastcgi_temp"
+fs.mount.cgi.uri = "file:/app/fastcgi_temp"
+
+fs.mount.sgi.type = "tmpfs"
+fs.mount.sgi.path = "/app/uwsgi_temp"
+fs.mount.sgi.uri = "file:/app/uwsgi_temp"
+
+fs.mount.scgi.type = "tmpfs"
+fs.mount.scgi.path = "/app/scgi_temp"
+fs.mount.scgi.uri = "file:/app/scgi_temp"
+
+fs.mount.conf.type = "chroot"
+fs.mount.conf.path = "/app/"
+fs.mount.conf.uri = "file:/app/"
+
+sgx.debug = false
+sgx.nonpie_binary = true
+sgx.enclave_size = "512M"
+sgx.thread_num = 4
+sys.enable_sigterm_injection = true
+
+
+# Nginx benefits from Exitless. Uncomment the below line to use it.
+sgx.rpc_thread_num = 4
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:{{ arch_libdir }}/",
+  "file:/usr/{{ arch_libdir }}/",
+  "file:/app/",
+  "file:/usr/local/sbin/php-fpm",
+  "file:/usr/local/lib/",
+  "file:/usr/lib/",
+  "file:/app/conf/",
+  "file:/etc/nsswitch.conf",
+  "file:/usr/local/etc/php-fpm.conf",
+  "file:/etc/hosts",
+  "file:/etc/group",
+  "file:/etc/passwd",
+]
+
