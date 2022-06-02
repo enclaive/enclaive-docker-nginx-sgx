@@ -38,7 +38,6 @@ sgx.trusted_files = [
   "file:{{ gramine.libos }}",
   "file:{{ gramine.runtimedir() }}/",
   "file:{{ arch_libdir }}/",
-  "file:/usr/{{ arch_libdir }}/",
   "file:/entrypoint/sbin/nginx",
   "file:/entrypoint/conf/",
   "file:/entrypoint/html/",
