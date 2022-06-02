@@ -5,7 +5,7 @@ services:
     image: enclaive/nginx-sgx:latest
     container_name: "nginx-sgx"
     build:
-      context: .  
+      context: .
     volumes:
       - /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket
     ports:
