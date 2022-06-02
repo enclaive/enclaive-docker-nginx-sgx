@@ -140,6 +140,10 @@ docker build -t enclaive/nginx-sgx:latest 'https://github.com/enclaive/enclaive-
 
 This NGINX-SGX Open Source repo exposes the folder at `/html`. Content mounted from this folder is served by the default catch-all server block. 
 
+### Use as an anonymous Reverse Proxy
+
+The `module-sgx` provides a variable `$sgx_add_x_forwarded_for` similar to the original `$proxy_add_x_forwarded_for` variable provided by the standard `proxy` module of `nginx`: [proxy_add_x_forwarded_for](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#var_proxy_add_x_forwarded_for). Example usage can be seen in the `/api/` location configured in `conf/nginx.conf`.
+
 ### Configure network ports
 Edit `conf/nginx.conf` to eanble the ports the server should listen to. Default ports are 80 and 443 for non-secured and TLS-secured communication, respectively.
 ```
