@@ -89,7 +89,9 @@ ngx_http_sgx_add_x_forwarded_for_variable(ngx_http_request_t *req,
     // TODO read from provisioned secret file
     u_char salt[] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC";
     u_char hash[SHA512_DIGEST_LENGTH];
-    sgx_salted_sha512(req->connection->addr_text.data, req->connection->addr_text.len, salt, 32, hash);
+    if (!sgx_salted_sha512(req->connection->addr_text.data, req->connection->addr_text.len, salt, 32, hash)) {
+        return NGX_ERROR;
+    }
 
     q = addr = ngx_pnalloc(req->pool, 39 + 1);
 
