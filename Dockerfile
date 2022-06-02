@@ -1,54 +1,55 @@
-FROM enclaive/gramine-os:latest
+FROM ubuntu:impish AS builder
 
-ARG NGX_VERSION=1.18.0
+ARG NGX_VERSION=1.22.0
 
-RUN apt-get update 
-RUN apt-get install -y build-essential apache2-utils libssl-dev zlib1g zlib1g-dev
+COPY ./packages-build.txt ./packages.txt
 
-# download source
-WORKDIR /entrypoint
+RUN apt-get update \
+    && xargs -a packages.txt -r apt-get install -y \
+    && rm -rf /var/lib/apt/lists/*
 
-ADD https://nginx.org/download/nginx-${NGX_VERSION}.tar.gz ./
-RUN tar -xzf nginx-${NGX_VERSION}.tar.gz 
-RUN rm nginx-${NGX_VERSION}.tar.gz
+RUN wget https://nginx.org/download/nginx-${NGX_VERSION}.tar.gz -qO - | tar xzf -
 
-# add nginx.conf
-COPY ./conf /entrypoint/conf
+WORKDIR nginx-${NGX_VERSION}
 
-# add /html
-WORKDIR /entrypoint/html
-
-COPY ./html .
-
-# build nginx
-WORKDIR /entrypoint/nginx-${NGX_VERSION}
+COPY ./module-sgx/ ./module-sgx/
 
 RUN ./configure \
     --prefix=/entrypoint \
     --without-http_rewrite_module \
-    --with-http_ssl_module 
-RUN make 
-RUN make install     
+    --with-http_ssl_module \
+    --with-compat \
+    --add-dynamic-module=./module-sgx
+RUN make -j
+RUN make -j modules
+RUN make install
 
-# generate server.cert
+# final stage
+
+FROM enclaive/gramine-os:latest
+
+COPY ./packages.txt ./packages.txt
+
+RUN apt-get update \
+    && xargs -a packages.txt -r apt-get install -y \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /entrypoint/ /entrypoint/
+COPY ./conf /entrypoint/conf
+COPY ./html /entrypoint/html
+
 WORKDIR /entrypoint/conf
-
 COPY ./ssl .
-RUN chmod +x cert-gen.sh 
-RUN ./cert-gen.sh               # creates self-signed server certificate if /ssl is empty
+# creates self-signed server certificate if /ssl is empty
+RUN ./cert-gen.sh
 
-# create manifest
 WORKDIR /manifest
-
 COPY nginx.manifest.template .
 RUN /manifest/manifest.sh nginx
 
 # clean up
-RUN rm -rf /entrypoint/nginx-${NGX_VERSION} /entrypoint/conf/ca.* /entrypoint/conf/cert-gen.sh 
+RUN rm -rf /entrypoint/conf/ca.* /entrypoint/conf/cert-gen.sh
 
-# start enclaived nginx
 ENTRYPOINT [ "/entrypoint/enclaive.sh" ]
 CMD [ "nginx" ]
-
-# ports
 EXPOSE 80 443
