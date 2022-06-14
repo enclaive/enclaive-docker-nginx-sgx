@@ -14,12 +14,16 @@ WORKDIR nginx-${NGX_VERSION}
 
 COPY ./module-sgx/ ./module-sgx/
 
-RUN ./configure \
+
+
+RUN git clone https://github.com/openresty/echo-nginx-module.git &&\
+    ./configure \
     --prefix=/entrypoint \
     --without-http_rewrite_module \
     --with-http_ssl_module \
     --with-compat \
-    --add-dynamic-module=./module-sgx
+    --add-dynamic-module=./module-sgx \
+    --add-dynamic-module=./echo-nginx-module
 RUN make -j
 RUN make -j modules
 RUN make install
