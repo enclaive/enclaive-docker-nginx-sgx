@@ -22,6 +22,7 @@ fs.mounts = [
     { path = "/entrypoint/fastcgi_temp",     uri = "file:/entrypoint/fastcgi_temp", type = "tmpfs" },
     { path = "/entrypoint/uwsgi_temp",       uri = "file:/entrypoint/uwsgi_temp",   type = "tmpfs" },
     { path = "/entrypoint/scgi_temp",        uri = "file:/entrypoint/scgi_temp",    type = "tmpfs" },
+    { path = "/usr/share/GeoIP/", uri = "file:/usr/share/GeoIP/" },
 ]
 
 sgx.debug = false
@@ -46,4 +47,5 @@ sgx.trusted_files = [
   "file:/etc/hosts",
   "file:/etc/group",
   "file:/etc/passwd",
+  "file:/usr/share/GeoIP/",
 ]

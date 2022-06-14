@@ -21,6 +21,7 @@ RUN git clone https://github.com/openresty/echo-nginx-module.git &&\
     --prefix=/entrypoint \
     --without-http_rewrite_module \
     --with-http_ssl_module \
+    --with-http_geoip_module \
     --with-compat \
     --add-dynamic-module=./module-sgx \
     --add-dynamic-module=./echo-nginx-module

@@ -1,1 +1,3 @@
 libprotobuf-c1
+geoip-database
+libgeoip-dev
