@@ -17,11 +17,12 @@ fs.mounts = [
     { path = "/entrypoint/modules", uri = "file:/entrypoint/modules" },
     { path = "/entrypoint/logs",    uri = "file:/entrypoint/logs",    type = "tmpfs" },
 
-    { path = "/entrypoint/client_body_temp", uri = "file:/entrypoint/logs",         type = "tmpfs" },
-    { path = "/entrypoint/proxy_temp",       uri = "file:/entrypoint/proxy_temp",   type = "tmpfs" },
-    { path = "/entrypoint/fastcgi_temp",     uri = "file:/entrypoint/fastcgi_temp", type = "tmpfs" },
-    { path = "/entrypoint/uwsgi_temp",       uri = "file:/entrypoint/uwsgi_temp",   type = "tmpfs" },
-    { path = "/entrypoint/scgi_temp",        uri = "file:/entrypoint/scgi_temp",    type = "tmpfs" },
+    { path = "/entrypoint/client_body_temp", uri = "file:/entrypoint/client_body_temp", type = "tmpfs" },
+    { path = "/entrypoint/proxy_temp",       uri = "file:/entrypoint/proxy_temp",       type = "tmpfs" },
+    { path = "/entrypoint/fastcgi_temp",     uri = "file:/entrypoint/fastcgi_temp",     type = "tmpfs" },
+    { path = "/entrypoint/uwsgi_temp",       uri = "file:/entrypoint/uwsgi_temp",       type = "tmpfs" },
+    { path = "/entrypoint/scgi_temp",        uri = "file:/entrypoint/scgi_temp",        type = "tmpfs" },
+
     { path = "/usr/share/GeoIP/", uri = "file:/usr/share/GeoIP/" },
 ]
 
