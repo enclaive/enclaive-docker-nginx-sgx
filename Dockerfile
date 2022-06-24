@@ -14,8 +14,6 @@ WORKDIR nginx-${NGX_VERSION}
 
 COPY ./module-sgx/ ./module-sgx/
 
-
-
 RUN git clone https://github.com/openresty/echo-nginx-module.git &&\
     ./configure \
     --prefix=/entrypoint \
@@ -33,27 +31,21 @@ RUN make install
 
 FROM enclaive/gramine-os:latest
 
-COPY ./packages.txt ./packages.txt
-
 RUN apt-get update \
-    && xargs -a packages.txt -r apt-get install -y \
+    && apt-get install -y geoip-database libgeoip-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /entrypoint/ /entrypoint/
-COPY ./conf /entrypoint/conf
-COPY ./html /entrypoint/html
 
-WORKDIR /entrypoint/conf
-COPY ./ssl .
-# creates self-signed server certificate if /ssl is empty
-RUN ./cert-gen.sh
+COPY ./conf/ /entrypoint/conf/
+COPY ./ssl/  /entrypoint/conf/ssl/
+COPY ./html/ /entrypoint/html/
+COPY ./nginx.manifest.template /manifest/
 
-WORKDIR /manifest
-COPY nginx.manifest.template .
-RUN /manifest/manifest.sh nginx
-
-# clean up
-RUN rm -rf /entrypoint/conf/ca.* /entrypoint/conf/cert-gen.sh
+# creates self-signed server certificate if not present
+RUN cd /entrypoint/conf/ssl/ && ./cert-gen.sh && cd - \
+    && /manifest/manifest.sh nginx \
+    && rm -rf /entrypoint/conf/ca.* /entrypoint/conf/cert-gen.sh
 
 ENTRYPOINT [ "/entrypoint/enclaive.sh" ]
 CMD [ "nginx" ]
