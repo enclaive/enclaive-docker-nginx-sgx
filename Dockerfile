@@ -1,4 +1,4 @@
-FROM ubuntu:impish AS builder
+FROM ubuntu:jammy AS builder
 
 ARG NGX_VERSION=1.22.0
 
