@@ -1,11 +1,19 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://enclaive.io/products/">
-    <img src="images/nginx-sgx.jpg" alt="Logo" width="120" >
-  </a>
+    <table>
+    <tr> 
+      <td align="center">
+        <a href="https://enclaive.io/products/">
+          <img alt="nodejs-sgx" height=64px src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nginx/nginx-original.svg">
+        </a>
+        <br>Nginx-SGX</td>     
+      </td>  
+    </tr>
+    </table>
 
-  <h2 align="center">NGINX-SGX: SGX-ready NGINX open source server</h2>
+
+  <h2 align="center">SGX-ready NGINX open source server</h2>
 
   <p align="center">
     <h3>packed by <a href="https://enclaive.io">enclaive</a></h3>
