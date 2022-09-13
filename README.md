@@ -4,7 +4,7 @@
     <table>
     <tr> 
       <td align="center">
-        <a href="https://enclaive.io/products/">
+        <a href="https://enclaive.io/products/nginx">
           <img alt="nodejs-sgx" height=64px src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nginx/nginx-original.svg">
         </a>
         <br>Nginx-SGX</td>     
