@@ -52,12 +52,12 @@ sgx.trusted_files = [
     "file:/usr/lib/ssl/openssl.cnf",
 
     "file:/etc/nsswitch.conf",
+    "file:/etc/host.conf",
     "file:/etc/group",
     "file:/etc/passwd",
-    "file:/usr/share/GeoIP/",
 ]
 
-#sgx.allowed_files = [
-#    "file:/etc/hosts",
-#    "file:/etc/resolv.conf",
-#]
+sgx.allowed_files = [
+    "file:/etc/hosts",
+    "file:/etc/resolv.conf",
+]
