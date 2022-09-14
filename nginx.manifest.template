@@ -2,15 +2,19 @@
 
 loader.entrypoint = "file:{{ gramine.libos }}"
 libos.entrypoint = "/entrypoint/sbin/nginx"
-
 loader.argv0_override = "/entrypoint/sbin/nginx"
+
 loader.log_level = "error"
-loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/local/lib"
+#loader.log_file = "debug/log.txt"
+
+loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}"
 
 fs.mounts = [
-    { path = "/lib",                uri = "file:{{ gramine.runtimedir() }}" },
-    { path = "{{ arch_libdir }}",   uri = "file:{{ arch_libdir }}" },
-    { path = "/etc",                uri = "file:/etc" },
+    { path = "/lib",              uri = "file:{{ gramine.runtimedir() }}" },
+    { path = "{{ arch_libdir }}", uri = "file:{{ arch_libdir }}" },
+    { path = "/etc",              uri = "file:/etc" },
+    { path = "/usr",              uri = "file:/usr" },
+
     { path = "/entrypoint/conf",    uri = "file:/entrypoint/conf" },
     { path = "/entrypoint/sbin",    uri = "file:/entrypoint/sbin" },
     { path = "/entrypoint/html",    uri = "file:/entrypoint/html" },
@@ -23,11 +27,9 @@ fs.mounts = [
     { path = "/entrypoint/uwsgi_temp",       uri = "file:/entrypoint/uwsgi_temp",       type = "tmpfs" },
     { path = "/entrypoint/scgi_temp",        uri = "file:/entrypoint/scgi_temp",        type = "tmpfs" },
 
-    { path = "/usr/share/GeoIP/", uri = "file:/usr/share/GeoIP/" },
 ]
 
 sgx.debug = false
-sgx.nonpie_binary = true
 sgx.enclave_size = "512M"
 sgx.thread_num = 4
 
@@ -37,16 +39,25 @@ sys.enable_sigterm_injection = true
 sgx.rpc_thread_num = 4
 
 sgx.trusted_files = [
-  "file:{{ gramine.libos }}",
-  "file:{{ gramine.runtimedir() }}/",
-  "file:{{ arch_libdir }}/",
-  "file:/entrypoint/sbin/nginx",
-  "file:/entrypoint/conf/",
-  "file:/entrypoint/html/",
-  "file:/entrypoint/modules/",
-  "file:/etc/nsswitch.conf",
-  "file:/etc/hosts",
-  "file:/etc/group",
-  "file:/etc/passwd",
-  "file:/usr/share/GeoIP/",
+    "file:{{ gramine.libos }}",
+    "file:{{ gramine.runtimedir() }}/",
+    "file:{{ arch_libdir }}/",
+
+    "file:/entrypoint/sbin/nginx",
+    "file:/entrypoint/conf/",
+    "file:/entrypoint/html/",
+    "file:/entrypoint/modules/",
+
+    "file:/usr/share/GeoIP/",
+    "file:/usr/lib/ssl/openssl.cnf",
+
+    "file:/etc/nsswitch.conf",
+    "file:/etc/group",
+    "file:/etc/passwd",
+    "file:/usr/share/GeoIP/",
 ]
+
+#sgx.allowed_files = [
+#    "file:/etc/hosts",
+#    "file:/etc/resolv.conf",
+#]

@@ -4,12 +4,13 @@ services:
   nginx:
     image: enclaive/nginx-sgx:latest
     container_name: "nginx-sgx"
-    build:
-      context: .
-    volumes:
-      - /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket
+    build: .
+#    volumes:
+#      - "./debug/:/debug/"
     ports:
       - '80:80'
       - '443:443'
     devices:
-      - "/dev/sgx_enclave:/dev/sgx_enclave"
+      - "/dev/sgx/enclave:/dev/sgx/enclave"
+      - "/dev/sgx/enclave:/dev/sgx_enclave"
+      - "/dev/sgx_provision:/dev/sgx_provision"
